@@ -1,6 +1,12 @@
 # AI-Bot
 
 AI-Bot is a Slack bot powered by AWS Bedrock. It answers questions using a retrieval augmented approach and stores conversations in DynamoDB so it can keep track of each thread. The bot's responses are slightly sarcastic by design.
+ 
+You can connect a Slack bot to this project and feed the datastore with the
+information you need the model to train on.
+
+This can help other teams directly get the info from the bot rather than
+disturbing a real human.
 
 ## Setup
 
@@ -26,3 +32,5 @@ and run it with the appropriate environment variables and mounted credential fil
 
 The bot listens to Slack events, sends the message history to Bedrock and replies in the same thread. Threads are persisted in DynamoDB so it can continue conversations across messages.
 
+- AWS keys injected as environment variables
+- Slack workspace keys
