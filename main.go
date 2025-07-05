@@ -3,12 +3,14 @@ package main
 import (
 	"ai-bot/internal/ai"
 	"ai-bot/internal/data"
+	jirasvc "ai-bot/internal/jira"
 	"encoding/json"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
+	"regexp"
 	"strings"
 
 	"github.com/slack-go/slack"
@@ -18,6 +20,22 @@ import (
 const (
 	port = "8080"
 )
+
+var jiraURLRegex = regexp.MustCompile(`https?://[^\s]+`)
+var jiraKeyRegex = regexp.MustCompile(`[A-Z][A-Z0-9]+-[0-9]+`)
+
+func extractJiraKey(text string) string {
+	links := jiraURLRegex.FindAllString(text, -1)
+	for _, l := range links {
+		if strings.Contains(strings.ToLower(l), "jira") || strings.Contains(strings.ToLower(l), "atlassian") {
+			key := jiraKeyRegex.FindString(l)
+			if key != "" {
+				return key
+			}
+		}
+	}
+	return ""
+}
 
 func main() {
 	slackSigningSecretContent, err := os.ReadFile("/etc/ai-chat-bot/slack-signing-secret")
@@ -33,6 +51,19 @@ func main() {
 	}
 
 	slackBotToken := string(slackBotTokenContent)
+
+	jiraBaseURL := os.Getenv("JIRA_BASE_URL")
+	jiraUsername := os.Getenv("JIRA_USERNAME")
+	jiraToken := os.Getenv("JIRA_TOKEN")
+	jiraProjectKey := os.Getenv("JIRA_PROJECT_KEY")
+
+	var jiraService *jirasvc.Service
+	if jiraBaseURL != "" && jiraUsername != "" && jiraToken != "" && jiraProjectKey != "" {
+		jiraService, err = jirasvc.NewService(jiraBaseURL, jiraUsername, jiraToken, jiraProjectKey)
+		if err != nil {
+			log.Println("failed to init jira service", err)
+		}
+	}
 
 	threadRepo := data.NewThreadRepo()
 	aiService, err := ai.NewService()
@@ -113,6 +144,33 @@ func main() {
 
 				if strings.Contains(strings.ToLower(ev.Text), "no_orc") {
 					reply = false
+				}
+
+				if jiraService != nil {
+					if key := extractJiraKey(prompt); key != "" {
+						sum, desc, err := jiraService.IssueInfo(key)
+						if err != nil {
+							log.Println("failed to get issue info", err)
+						} else {
+							prompt = fmt.Sprintf("%s\n\nJira issue %s summary: %s\nDescription: %s", prompt, key, sum, desc)
+						}
+					}
+				}
+
+				if strings.HasPrefix(strings.ToLower(prompt), "jira create") && jiraService != nil {
+					summary := strings.TrimSpace(prompt[len("jira create"):])
+					key, err := jiraService.CreateIssue(summary, summary)
+					text := ""
+					if err != nil {
+						text = fmt.Sprintf("Failed to create issue: %v", err)
+					} else {
+						text = fmt.Sprintf("Created Jira issue %s", key)
+					}
+					_, _, err = api.PostMessage(ev.Channel, slack.MsgOptionText(text, false), slack.MsgOptionTS(threadTimestamp))
+					if err != nil {
+						log.Println(err)
+					}
+					return
 				}
 
 				// message in thread - reply in thread
