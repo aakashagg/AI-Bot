@@ -22,7 +22,7 @@ const (
 	smartModelID      = "meta.llama2-70b-chat-v1" //https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids-arns.html//https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids-arns.html
 )
 
-var knoweldgeBaseID = os.Getenv("KNOWELDGE_BASE_ID")
+var knowledgeBaseID = os.Getenv("KNOWLEDGE_BASE_ID")
 
 type Service struct {
 	BedrockAgentRuntime *bedrockagentruntime.Client
@@ -73,7 +73,7 @@ func (s *Service) GenerateFromKnowledge(thread mytypes.Thread, history []string,
 		RetrieveAndGenerateConfiguration: &types.RetrieveAndGenerateConfiguration{
 			Type: types.RetrieveAndGenerateTypeKnowledgeBase,
 			KnowledgeBaseConfiguration: &types.KnowledgeBaseRetrieveAndGenerateConfiguration{
-				KnowledgeBaseId:         aws.String(knoweldgeBaseID),
+				KnowledgeBaseId:         aws.String(knowledgeBaseID),
 				ModelArn:                aws.String(knowledgeModelArn),
 				GenerationConfiguration: &types.GenerationConfiguration{},
 				RetrievalConfiguration: &types.KnowledgeBaseRetrievalConfiguration{

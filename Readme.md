@@ -1,11 +1,12 @@
 # AI-Bot
  
-You can connect a slack bot to this project and you can feed the data store with the info you need the model to train on.
+You can connect a Slack bot to this project and feed the datastore with the
+information you need the model to train on.
 
-This can help other team to directly get the info from the bot rather than disturbing a real human.
+This can help other teams directly get the info from the bot rather than
+disturbing a real human.
 
 # Setup
 
-- AWS Keys injected as env variables 
-- SlacWorkspace Keys
-- 
+- AWS keys injected as environment variables
+- Slack workspace keys
