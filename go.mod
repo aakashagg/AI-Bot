@@ -10,7 +10,8 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/bedrockagentruntime v1.45.2
 	github.com/aws/aws-sdk-go-v2/service/bedrockruntime v1.31.0
 	github.com/guregu/dynamo v1.23.0
-	github.com/slack-go/slack v0.17.3
+       github.com/slack-go/slack v0.17.3
+       github.com/andygrunwald/go-jira v1.15.0
 )
 
 require (

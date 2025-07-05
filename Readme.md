@@ -14,6 +14,11 @@ disturbing a real human.
 2. Provide Slack credentials in `/etc/ai-chat-bot`:
    - `/etc/ai-chat-bot/slack-token` – Slack bot token
    - `/etc/ai-chat-bot/slack-signing-secret` – Slack signing secret
+4. Configure Jira access through the following environment variables:
+   - `JIRA_BASE_URL` – Base URL of your Jira instance (e.g. `https://yourdomain.atlassian.net`)
+   - `JIRA_USERNAME` – Username or e‑mail address used to authenticate
+   - `JIRA_TOKEN` – API token generated from Jira
+   - `JIRA_PROJECT_KEY` – Project key where issues should be created
 3. Run the application with Go:
 
 ```bash
@@ -34,3 +39,16 @@ The bot listens to Slack events, sends the message history to Bedrock and replie
 
 - AWS keys injected as environment variables
 - Slack workspace keys
+- Jira variables for issue creation
+
+### Creating Jira tickets
+
+Send a Slack message starting with `jira create` followed by a summary. The bot
+will create a new issue in the configured project and reply with the created
+issue key.
+
+### Using Jira links for context
+
+If your message contains a link to a Jira issue, the bot will fetch the ticket's
+summary and description and include it when generating a response. This helps
+produce more accurate answers when discussing existing tasks.
