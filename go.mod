@@ -9,7 +9,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.32.7
 	github.com/aws/aws-sdk-go-v2/credentials v1.19.7
 	github.com/aws/aws-sdk-go-v2/service/bedrockagentruntime v1.51.3
-	github.com/aws/aws-sdk-go-v2/service/bedrockruntime v1.47.2
+	github.com/aws/aws-sdk-go-v2/service/bedrockruntime v1.48.0
 	github.com/guregu/dynamo v1.23.0
 	github.com/guregu/dynamo/v2 v2.5.0
 	github.com/slack-go/slack v0.17.3
