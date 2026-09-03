@@ -1,6 +1,6 @@
 module ai-bot
 
-go 1.25
+go 1.25.0
 
 require (
 	github.com/andygrunwald/go-jira v1.17.0
@@ -11,7 +11,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/bedrockagentruntime v1.53.1
 	github.com/aws/aws-sdk-go-v2/service/bedrockruntime v1.54.1
 	github.com/guregu/dynamo v1.23.0
-	github.com/guregu/dynamo/v2 v2.5.0
+	github.com/guregu/dynamo/v2 v2.6.0
 	github.com/slack-go/slack v0.29.0
 )
 
@@ -37,5 +37,5 @@ require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/trivago/tgo v1.0.7 // indirect
-	golang.org/x/sync v0.16.0 // indirect
+	golang.org/x/sync v0.20.0 // indirect
 )
