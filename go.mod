@@ -1,6 +1,6 @@
 module ai-bot
 
-go 1.25
+go 1.26
 
 require (
 	github.com/andygrunwald/go-jira v1.17.0
@@ -12,7 +12,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/bedrockruntime v1.54.1
 	github.com/guregu/dynamo v1.23.0
 	github.com/guregu/dynamo/v2 v2.5.0
-	github.com/slack-go/slack v0.29.0
+	github.com/slack-go/slack v0.30.1
 )
 
 require (
