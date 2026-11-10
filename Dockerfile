@@ -1,4 +1,4 @@
-FROM golang:1.26.1-alpine
+FROM golang:1.27.4-alpine
 
 ARG GIT_VERSION
 
